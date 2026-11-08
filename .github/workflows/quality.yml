@@ -16,6 +16,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Prévia técnica da fachada
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          import base64, io
+          from PIL import Image
+          pic = Image.open('assets/portfolio/fachada-contemporanea.png').convert('RGB')
+          pic.thumbnail((440, 300))
+          out = io.BytesIO()
+          pic.save(out, format='JPEG', quality=58, optimize=True)
+          print('HERO-PREVIEW-BEGIN:' + base64.b64encode(out.getvalue()).decode() + ':HERO-PREVIEW-END')
+          print('ORIGINAL-DIMENSIONS:', Image.open('assets/portfolio/fachada-contemporanea.png').size)
+          PY
       - name: Node.js 22
         uses: actions/setup-node@v4
         with:
