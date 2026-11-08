@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import TechText from './components/TechText.jsx';
+import Lanyard from './components/Lanyard.jsx';
 import './styles.css';
 
 const ASSETS = '/assets/';
@@ -112,7 +113,17 @@ function App() {
 
       <section className="intro-section section-pad" id="sobre">
         <div className="wrap intro-grid">
-          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> NOSSA ESSÊNCIA</span><figure className="intro-portrait"><img src={`${ASSETS}equipe/stela-maris.png`} alt="Retrato da arquiteta Stela Maris" loading="lazy" decoding="async" /></figure></div>
+          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> NOSSA ESSÊNCIA</span><figure className="intro-portrait" aria-label="Foto interativa da arquiteta Stela Maris">
+            <div className="intro-lanyard-shell">
+              <Lanyard frontImage={`${ASSETS}equipe/stela-maris.png`}
+                backImage={`${ASSETS}identidade/logo-stela-maris.png`}
+                orientation="portrait" imageFit="cover" finish="matte"
+                cardColor="#ede7dc" cornerRadius={0.18} size={0.67}
+                anchor="center" strapLength={0.3} strapColor="#b08e65" strapWidth={0.65}
+                metal="gold" gravity={0.9} damping={0.64} elasticity={0.42}
+                breeze={0.16} interactive intro />
+            </div>
+          </figure></div>
           <div className="intro-copy reveal-on-scroll"><h2>Espaços não são apenas lugares. <em>São histórias.</em></h2><p>Transformamos ideias e sonhos em projetos de arquitetura e engenharia. Criatividade, técnica e sensibilidade em cada detalhe.</p><a className="inline-link" href="#servicos">Conheça nossa atuação <Arrow diagonal size={18}/></a></div>
           <div className="years-stamp reveal-on-scroll"><strong>12</strong><span>ANOS TRANSFORMANDO<br/>IDEIAS EM PROJETOS</span></div>
         </div>

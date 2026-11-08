@@ -17,7 +17,13 @@
 @media(max-width:390px){.hero-title{font-size:clamp(39px,10.2vw,45px)}.hero-eyebrow{letter-spacing:.065em}.section-kicker{letter-spacing:.1em}.project-card:first-child{aspect-ratio:1}.footer-links{gap:13px}.footer-links a{font-size:10px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition-duration:.01ms!important}.reveal-on-scroll{opacity:1;transform:none}.hero-image{transform:none}}
 
-.intro-portrait{margin:35px 0 0;width:100%;height:310px;overflow:hidden;background:#ddd4c6}.intro-portrait img{height:100%;width:100%;object-fit:cover;object-position:center 30%;filter:saturate(.82)}
-@media(min-width:851px){.intro-caption{min-width:0}.intro-portrait{height:380px}}
-@media(min-width:601px) and (max-width:850px){.intro-caption{justify-content:flex-start;gap:28px}.intro-portrait{width:170px;height:190px;margin:0}}
-@media(max-width:600px){.intro-caption{display:block}.intro-portrait{height:320px;margin-top:20px}}
+.intro-portrait{margin:30px 0 0;width:100%;height:420px;overflow:visible;position:relative;background:transparent}
+.intro-lanyard-shell{position:relative;width:100%;height:100%;isolation:isolate;background:radial-gradient(ellipse at 50% 8%,#faf8f4 0%,#ece7de 58%,#ddd5c9 100%);overflow:hidden;border:1px solid rgba(158,128,86,.2);box-shadow:0 19px 40px rgba(62,53,44,.07)}
+.intro-lanyard-shell::after{content:'';position:absolute;inset:12px;border:1px solid rgba(158,128,86,.12);pointer-events:none;z-index:2}
+.intro-lanyard-shell .lanyard{position:absolute;inset:0}
+.intro-lanyard-shell .lanyard-canvas{touch-action:pan-y;cursor:grab}
+.intro-lanyard-shell .lanyard-canvas:active{cursor:grabbing}
+@media(min-width:851px){.intro-caption{min-width:0}.intro-portrait{height:420px}}
+@media(min-width:601px) and (max-width:850px){.intro-caption{justify-content:flex-start;gap:28px}.intro-portrait{width:205px;height:270px;margin:0}}
+@media(max-width:600px){.intro-caption{display:block}.intro-portrait{height:min(108vw,420px);margin-top:20px}}
+@media(prefers-reduced-motion:reduce){.intro-lanyard-shell .lanyard-canvas{pointer-events:none}}

@@ -64,3 +64,22 @@ test('imagens da publicação disponíveis e sem links quebrados', async ({ requ
     expect(response.headers()['content-type']).toMatch(/image\//);
   }
 });
+
+test('retrato da arquiteta com Lanyard e imagem de segurança', async ({ page }) => {
+  await page.goto('/');
+  const retrato = page.locator('#sobre .intro-portrait');
+  await retrato.scrollIntoViewIfNeeded();
+  await expect(retrato).toBeVisible();
+  await expect(retrato.locator('.lanyard')).toHaveCount(1);
+  const foto = retrato.locator('.lanyard-poster');
+  await expect(foto).toHaveAttribute('src', '/assets/equipe/stela-maris.png');
+  await expect.poll(() => foto.evaluate(img => img.complete && img.naturalWidth > 0)).toBeTruthy();
+});
+
+test('retrato permanece acessível com movimento reduzido', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const retrato = page.locator('#sobre .intro-portrait .lanyard-poster');
+  await expect(retrato).toBeVisible();
+  await expect(retrato).toHaveAttribute('alt', /Stela Maris/);
+});

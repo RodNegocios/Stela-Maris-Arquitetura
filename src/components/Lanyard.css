@@ -1,0 +1,34 @@
+.lanyard {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.lanyard-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lanyard-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 27%;
+  filter: saturate(.9);
+  transition: opacity .45s ease;
+}
+.lanyard-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+.lanyard.lanyard-ready .lanyard-poster { opacity: 0; }
+.lanyard.lanyard-ready .lanyard-canvas { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .lanyard-poster,.lanyard-canvas { transition: none; }
+}
