@@ -41,12 +41,12 @@ function App() {
   const moveHero = event => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || event.pointerType === 'touch') return;
     const bounds = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty('--hero-mouse-x', (((event.clientX - bounds.left) / bounds.width) - 0.5).toFixed(3));
-    event.currentTarget.style.setProperty('--hero-mouse-y', (((event.clientY - bounds.top) / bounds.height) - 0.5).toFixed(3));
+    event.currentTarget.style.setProperty('--hero-mouse-x', `${((((event.clientX - bounds.left) / bounds.width) - 0.5) * 18).toFixed(1)}px`);
+    event.currentTarget.style.setProperty('--hero-mouse-y', `${((((event.clientY - bounds.top) / bounds.height) - 0.5) * 22).toFixed(1)}px`);
   };
   const resetHero = event => {
-    event.currentTarget.style.setProperty('--hero-mouse-x', '0');
-    event.currentTarget.style.setProperty('--hero-mouse-y', '0');
+    event.currentTarget.style.setProperty('--hero-mouse-x', '0px');
+    event.currentTarget.style.setProperty('--hero-mouse-y', '0px');
   };
 
   useEffect(() => {
@@ -56,7 +56,8 @@ function App() {
       document.documentElement.classList.toggle('scrolled', window.scrollY > 40);
       if (heroRef.current) {
         const progress = Math.min(1, Math.max(0, window.scrollY / Math.max(heroRef.current.offsetHeight, 1)));
-        heroRef.current.style.setProperty('--hero-scroll', progress.toFixed(3));
+        heroRef.current.style.setProperty('--hero-scroll-y', `${(progress * 105).toFixed(1)}px`);
+        heroRef.current.style.setProperty('--hero-scroll-mobile-y', `${(progress * 55).toFixed(1)}px`);
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
