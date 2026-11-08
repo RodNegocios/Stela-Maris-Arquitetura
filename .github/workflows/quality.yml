@@ -1,25 +1,56 @@
-name: Qualidade do website
+name: Build, testes e publicacao estatica
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'static/**'
+      - 'index.html'
+      - 'package-lock.json'
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
-  validate:
+  website:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Node.js 22
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-audit --no-fund
-      - run: npm run build
-      - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e
-      - uses: actions/upload-artifact@v4
+      - name: Dependencias
+        run: npm install --no-audit --no-fund
+      - name: Compilar
+        run: npm run build
+      - name: Conferir distribuicao estatica
+        run: |
+          test -s dist/index.html
+          test -d dist/static
+          test -f dist/assets/identidade/logo-stela-maris.png
+          test -f dist/assets/portfolio/fachada-contemporanea.png
+          test -f dist/favicon.svg
+          grep -q '/static/' dist/index.html
+      - name: Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Testes navegador
+        run: npm run test:e2e
+      - name: Publicar build estatico na main
+        run: |
+          cp dist/index.html index.html
+          rm -rf static
+          cp -R dist/static static
+          git add index.html static package-lock.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'build: site estatico pronto para Hostinger [skip ci]'
+            git push origin HEAD:main
+          fi
+      - name: Capturas
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: capturas-e-resultados
+          name: resultados-web
           path: |
             test-results/
             playwright-report/

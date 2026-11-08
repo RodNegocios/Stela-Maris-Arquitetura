@@ -1,47 +1,37 @@
-# Stela Maris — Arquitetura & Engenharia
+# Stela Maris Arquitetura & Engenharia
 
-Site institucional criado com **React + Vite**. Os conteúdos oficiais estão em [docs/informacoes-da-empresa.md](docs/informacoes-da-empresa.md).
+Site institucional em React + Vite, com produção estática pronta na branch **main**.
 
-## Publicação na Hostinger pelo GitHub
+## Hostinger: conecte o repositório e publique
 
-Conecte este repositório usando **Sites → Criar site → Aplicativo Web / Web App → Importar repositório GitHub**, selecionando a branch `main`. Para a publicação automática, utilize as configurações que a Hostinger detecta para Vite:
+**Integração de Git/HTML convencional:** selecione a branch `main` e a raiz do repositório como diretório do website (`public_html`). Os arquivos `index.html`, `static/`, `assets/` e `favicon.svg` são suficientes para a publicação, **sem Node.js nem etapa de build**.
 
-| Configuração | Valor |
-| --- | --- |
-| Branch | `main` |
-| Diretório do aplicativo | `./` (raiz) |
-| Versão Node.js | 22 |
-| Instalação de dependências | Automática |
-| Comando de build | `npm run build` |
-| Diretório publicado | `dist` |
-| Variáveis de ambiente | Nenhuma |
+**Web App React/Vite:** branch `main`, diretório `./`, Node.js **22**, comando `npm run build`, diretório de saída **`dist`**, sem variáveis de ambiente. A Hostinger compila automaticamente.
 
-**Importante:** escolha o fluxo de **Aplicativo Web (React/Vite)**, não a integração **Avançado → Git** destinada a sites PHP/HTML sem compilação. A Hostinger gera `dist/` e publica o resultado; **não é necessário editar o código, instalar bibliotecas manualmente ou enviar `dist/` ao GitHub**. Esse fluxo requer plano Hostinger com suporte a Web Apps (Business ou Cloud).
+O GitHub Actions executa a compilação, testa em navegador e atualiza `index.html` e `static/` da raiz após cada alteração do código-fonte. Verifique o workflow antes de fazer o primeiro deploy.
 
-## Estrutura
+## Pastas
 
 ```text
-.
-├── .github/workflows/quality.yml  # build e testes em navegador
-├── docs/informacoes-da-empresa.md  # dados oficiais preservados
-├── public/
-│   ├── assets/
-│   │   ├── identidade/              # logotipo
-│   │   ├── equipe/                  # fotografia institucional
-│   │   └── portfolio/              # imagens utilizadas no site
-│   └── favicon.svg
-├── src/
-│   ├── components/                 # efeito de texto React Bits
-│   ├── main.jsx                    # seções e interações
-│   └── styles.css                  # design e responsividade
-├── tests/site.spec.mjs             # testes de navegador
-├── index.html
+├── index.html         # HTML de produção (gerado pelo GitHub Actions)
+├── static/            # JS/CSS compilado (gerado pelo GitHub Actions)
+├── assets/
+│   ├── identidade/    # logotipo
+│   ├── equipe/        # fotografia institucional
+│   └── portfolio/     # projetos utilizados no site
+├── favicon.svg
+├── app.html           # HTML de entrada do Vite
+├── src/               # React, componentes e estilos
+├── docs/              # informações oficiais da empresa
+├── tests/             # testes responsivos e funcionais
+├── .github/workflows/ # validação e atualização da versão estática
 ├── package.json
+├── package-lock.json  # gerado pelo workflow
 ├── playwright.config.mjs
 └── vite.config.js
 ```
 
-## Desenvolvimento e qualidade
+## Desenvolver
 
 ```bash
 npm install
@@ -51,10 +41,6 @@ npm run preview
 npm run test:e2e
 ```
 
-O GitHub Actions compila o site e executa testes com Playwright após cada alteração na `main`.
+O ambiente de desenvolvimento abre `/app.html`. O build gera `dist/index.html` para implantação. Ao editar o conteúdo, altere os arquivos em `src/` e `app.html`, não o `index.html` compilado.
 
-- Todos os arquivos em `public/` são copiados automaticamente para `dist/` pelo Vite.
-- Todas as fotografias publicadas estão dentro de `public/assets/`; não há arquivos de mídia duplicados na raiz.
-- O formulário abre uma mensagem pronta no WhatsApp; não armazena informações nem exige backend.
-- Contato, endereço, horário e serviços seguem o documento institucional original.
-- Nenhum dado sensível ou variável de ambiente é necessário para construir o site.
+Conteúdo institucional: [docs/informacoes-da-empresa.md](docs/informacoes-da-empresa.md). O formulário envia uma mensagem pelo WhatsApp; não há backend nem segredos de ambiente.
