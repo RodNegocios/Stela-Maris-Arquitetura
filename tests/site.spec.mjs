@@ -44,3 +44,23 @@ test('preferência por movimento reduzido', async ({ page }) => {
   await expect(page.locator('.hero-title')).toBeVisible();
   expect(await page.locator('.hero-title').evaluate(el => getComputedStyle(el).opacity)).toBe('1');
 });
+
+test('imagens da publicação disponíveis e sem links quebrados', async ({ request }) => {
+  const paths = [
+    '/assets/identidade/logo-stela-maris.png',
+    '/assets/equipe/stela-maris.png',
+    '/assets/portfolio/fachada-contemporanea.png',
+    '/assets/portfolio/quarto-moderno.png',
+    '/assets/portfolio/fachada-moderna.png',
+    '/assets/portfolio/suite-clara.png',
+    '/assets/portfolio/residencia-contemporanea.png',
+    '/assets/portfolio/espaco-essence.png',
+    '/assets/portfolio/sala-de-estar.png',
+    '/favicon.svg',
+  ];
+  for (const path of paths) {
+    const response = await request.get(path);
+    expect(response.ok(), `Recurso indisponível: ${path}`).toBeTruthy();
+    expect(response.headers()['content-type']).toMatch(/image\//);
+  }
+});

@@ -1,22 +1,60 @@
-# Stela Maris Arquitetura & Engenharia
+# Stela Maris — Arquitetura & Engenharia
 
-Website oficial, em React + Vite. Conteúdo institucional e imagens originados dos próprios materiais fornecidos neste repositório.
+Site institucional criado com **React + Vite**. Os conteúdos oficiais estão em [docs/informacoes-da-empresa.md](docs/informacoes-da-empresa.md).
 
-## Execução
+## Publicação na Hostinger pelo GitHub
 
-- `npm install`
-- `npm run dev` — ambiente local
-- `npm run build` — site estático de produção em `dist/`
-- `npm run preview` — pré-visualização da compilação
+Conecte este repositório usando **Sites → Criar site → Aplicativo Web / Web App → Importar repositório GitHub**, selecionando a branch `main`. Para a publicação automática, utilize as configurações que a Hostinger detecta para Vite:
 
-## Publicação na Hostinger
+| Configuração | Valor |
+| --- | --- |
+| Branch | `main` |
+| Diretório do aplicativo | `./` (raiz) |
+| Versão Node.js | 22 |
+| Instalação de dependências | Automática |
+| Comando de build | `npm run build` |
+| Diretório publicado | `dist` |
+| Variáveis de ambiente | Nenhuma |
 
-Na hospedagem de sites estáticos, publique **o conteúdo da pasta `dist/`** dentro de `public_html/` (não os arquivos-fonte do repositório). Em hospedagem compatível com Node, execute `npm install && npm run build` como etapa de build e use `dist` como diretório publicado. Todas as imagens necessárias estão em `public/assets/` e são incluídas automaticamente na compilação; não há variáveis de ambiente nem serviços de backend necessários.
+**Importante:** escolha o fluxo de **Aplicativo Web (React/Vite)**, não a integração **Avançado → Git** destinada a sites PHP/HTML sem compilação. A Hostinger gera `dist/` e publica o resultado; **não é necessário editar o código, instalar bibliotecas manualmente ou enviar `dist/` ao GitHub**. Esse fluxo requer plano Hostinger com suporte a Web Apps (Business ou Cloud).
 
-A navegação é realizada por âncoras na página inicial. O formulário de orçamento abre uma conversa no WhatsApp com as informações preenchidas; não coleta dados em servidor. O botão de localização abre Google Maps e a página também possui mapa incorporado.
+## Estrutura
 
-## Fontes de informação
+```text
+.
+├── .github/workflows/quality.yml  # build e testes em navegador
+├── docs/informacoes-da-empresa.md  # dados oficiais preservados
+├── public/
+│   ├── assets/
+│   │   ├── identidade/              # logotipo
+│   │   ├── equipe/                  # fotografia institucional
+│   │   └── portfolio/              # imagens utilizadas no site
+│   └── favicon.svg
+├── src/
+│   ├── components/                 # efeito de texto React Bits
+│   ├── main.jsx                    # seções e interações
+│   └── styles.css                  # design e responsividade
+├── tests/site.spec.mjs             # testes de navegador
+├── index.html
+├── package.json
+├── playwright.config.mjs
+└── vite.config.js
+```
 
-O arquivo `informações para o site` contém dados institucionais, endereço, horários e contatos. Não foram criados depoimentos, preços ou informações de serviços além das categorias ali documentadas.
+## Desenvolvimento e qualidade
 
-O efeito interativo de lettering é baseado no componente `TechText` fornecido, do React Bits, com fallback estático para preferência por movimento reduzido.
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+npm run test:e2e
+```
+
+O GitHub Actions compila o site e executa testes com Playwright após cada alteração na `main`.
+
+- Todos os arquivos em `public/` são copiados automaticamente para `dist/` pelo Vite.
+- Todas as fotografias publicadas estão dentro de `public/assets/`; não há arquivos de mídia duplicados na raiz.
+- O formulário abre uma mensagem pronta no WhatsApp; não armazena informações nem exige backend.
+- Contato, endereço, horário e serviços seguem o documento institucional original.
+- Nenhum dado sensível ou variável de ambiente é necessário para construir o site.

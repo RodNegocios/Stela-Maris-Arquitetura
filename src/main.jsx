@@ -9,7 +9,7 @@ const INSTAGRAM = 'https://www.instagram.com/stelamaris_arq/';
 const MAPS = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Rua Santa Catarina, Centro, Campos de Júlio - MT, 78319-000');
 
 const projects = [
-  { name: 'Arquitetura contemporânea', kind: 'Arquitetura', image: 'casa-fachada.png', cls: 'project-wide', position: 'center 58%' },
+  { name: 'Arquitetura contemporânea', kind: 'Arquitetura', image: 'fachada-contemporanea.png', cls: 'project-wide', position: 'center 58%' },
   { name: 'Interiores com personalidade', kind: 'Interiores', image: 'quarto-moderno.png', cls: 'project-tall', position: 'center center' },
   { name: 'Formas e proporções', kind: 'Arquitetura', image: 'fachada-moderna.png', cls: '', position: 'center center' },
   { name: 'Ambientes que acolhem', kind: 'Interiores', image: 'suite-clara.png', cls: '', position: 'center center' },
@@ -81,7 +81,7 @@ function App() {
     <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
     <header className="site-header">
       <a className="brand" href="#inicio" aria-label="Stela Maris — início" onClick={closeMenu}>
-        <img src={`${ASSETS}logotipo.png`} alt="Stela Maris — Arquitetura & Engenharia" width="196" height="66" />
+        <img src={`${ASSETS}identidade/logo-stela-maris.png`} alt="Stela Maris — Arquitetura & Engenharia" width="196" height="66" />
       </a>
       <nav className={`nav ${menuOpen ? 'nav-open' : ''}`} id="navigation" aria-label="Navegação principal">
         <a href="#projetos" onClick={closeMenu}>Projetos</a>
@@ -112,7 +112,7 @@ function App() {
 
       <section className="intro-section section-pad" id="sobre">
         <div className="wrap intro-grid">
-          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> NOSSA ESSÊNCIA</span><figure className="intro-portrait"><img src={`${ASSETS}arquiteta-stela-maris.png`} alt="Retrato da arquiteta Stela Maris" loading="lazy" decoding="async" /></figure></div>
+          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> NOSSA ESSÊNCIA</span><figure className="intro-portrait"><img src={`${ASSETS}equipe/stela-maris.png`} alt="Retrato da arquiteta Stela Maris" loading="lazy" decoding="async" /></figure></div>
           <div className="intro-copy reveal-on-scroll"><h2>Espaços não são apenas lugares. <em>São histórias.</em></h2><p>Transformamos ideias e sonhos em projetos de arquitetura e engenharia. Criatividade, técnica e sensibilidade em cada detalhe.</p><a className="inline-link" href="#servicos">Conheça nossa atuação <Arrow diagonal size={18}/></a></div>
           <div className="years-stamp reveal-on-scroll"><strong>12</strong><span>ANOS TRANSFORMANDO<br/>IDEIAS EM PROJETOS</span></div>
         </div>
@@ -123,7 +123,7 @@ function App() {
           <div className="section-heading reveal-on-scroll"><div><span className="section-kicker"><span className="gold-dot"/> PORTFÓLIO VISUAL</span><h2>Traços que <em>ganham vida.</em></h2></div><p>Uma seleção de espaços, perspectivas e detalhes que expressam nossa linguagem.</p></div>
           <div className="projects-grid">
             {projects.map((project, index) => <button key={project.image} type="button" className={`project-card reveal-on-scroll ${project.cls}`} onClick={() => openProject(project)} aria-label={`Ampliar imagem: ${project.name}`}>
-              <img src={`${ASSETS}${project.image}`} alt={project.name} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" style={{ objectPosition: project.position }} />
+              <img src={`${ASSETS}portfolio/${project.image}`} alt={project.name} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" style={{ objectPosition: project.position }} />
               <span className="project-gradient" aria-hidden="true" />
               <span className="project-meta"><span><small>{project.kind} / 0{index + 1}</small><strong>{project.name}</strong></span><span className="project-arrow"><Arrow diagonal size={21}/></span></span>
             </button>)}
@@ -157,9 +157,9 @@ function App() {
       </section>
     </main>
 
-    <footer className="site-footer"><div className="wrap footer-top"><a className="footer-logo" href="#inicio" aria-label="Voltar ao início"><img src={`${ASSETS}logotipo.png`} alt="Stela Maris Arquitetura & Engenharia" width="228" height="77" loading="lazy" /></a><p>Projetamos sonhos,<br/><em>construímos realidades.</em></p><div className="footer-links"><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Stela Maris Arquitetura & Engenharia</span><span>Campos de Júlio · Mato Grosso</span><div><a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram da Stela Maris"><InstagramIcon /></a><a href={WHATSAPP} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Stela Maris"><WhatsappIcon /></a></div></div></footer>
+    <footer className="site-footer"><div className="wrap footer-top"><a className="footer-logo" href="#inicio" aria-label="Voltar ao início"><img src={`${ASSETS}identidade/logo-stela-maris.png`} alt="Stela Maris Arquitetura & Engenharia" width="228" height="77" loading="lazy" /></a><p>Projetamos sonhos,<br/><em>construímos realidades.</em></p><div className="footer-links"><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Stela Maris Arquitetura & Engenharia</span><span>Campos de Júlio · Mato Grosso</span><div><a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram da Stela Maris"><InstagramIcon /></a><a href={WHATSAPP} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Stela Maris"><WhatsappIcon /></a></div></div></footer>
     <a className="floating-wa" href={`${WHATSAPP}?text=${encodeURIComponent('Olá! Gostaria de informações sobre um projeto.')}`} target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp"><WhatsappIcon size={25}/></a>
-    {activeProject && <div className="lightbox-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveProject(null)}}><div className="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title"><button type="button" className="lightbox-close" aria-label="Fechar imagem" onClick={()=>setActiveProject(null)}>×</button><img src={`${ASSETS}${activeProject.image}`} alt={activeProject.name}/><div className="lightbox-caption"><small>{activeProject.kind}</small><h2 id="lightbox-title">{activeProject.name}</h2></div></div></div>}
+    {activeProject && <div className="lightbox-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveProject(null)}}><div className="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title"><button type="button" className="lightbox-close" aria-label="Fechar imagem" onClick={()=>setActiveProject(null)}>×</button><img src={`${ASSETS}portfolio/${activeProject.image}`} alt={activeProject.name}/><div className="lightbox-caption"><small>{activeProject.kind}</small><h2 id="lightbox-title">{activeProject.name}</h2></div></div></div>}
   </>;
 }
 
