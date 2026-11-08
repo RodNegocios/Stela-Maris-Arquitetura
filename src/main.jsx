@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 import './editorial.css';
 import './portrait-hero.css';
+import ProjectCarousel from './components/ProjectCarousel';
 
 const ASSETS = '/assets/';
 const WHATSAPP = 'https://wa.me/5565999527090';
@@ -10,12 +11,12 @@ const INSTAGRAM = 'https://www.instagram.com/stelamaris_arq/';
 const MAPS = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Rua Santa Catarina, Centro, Campos de Júlio - MT, 78319-000');
 
 const projects = [
-  { name: 'Arquitetura contemporânea', kind: 'Arquitetura', image: 'fachada-contemporanea.png', cls: 'project-wide', position: 'center 58%' },
-  { name: 'Interiores com personalidade', kind: 'Interiores', image: 'quarto-moderno.png', cls: 'project-tall', position: 'center center' },
-  { name: 'Formas e proporções', kind: 'Arquitetura', image: 'fachada-moderna.png', cls: '', position: 'center center' },
-  { name: 'Ambientes que acolhem', kind: 'Interiores', image: 'suite-clara.png', cls: '', position: 'center center' },
-  { name: 'Expressão arquitetônica', kind: 'Arquitetura', image: 'residencia-contemporanea.png', cls: '', position: 'center center' },
-  { name: 'Espaços com identidade', kind: 'Interiores', image: 'espaco-essence.png', cls: '', position: 'center center' },
+  { name: 'Arquitetura contemporânea', kind: 'Arquitetura', image: 'fachada-contemporanea.png', description: 'Linhas marcantes, luz natural e materiais que traduzem uma forma contemporânea de morar.', cls: 'project-wide', position: 'center 58%' },
+  { name: 'Interiores com personalidade', kind: 'Interiores', image: 'quarto-moderno.png', description: 'Texturas, contrastes e escolhas que tornam cada ambiente uma expressão de quem vive nele.', cls: 'project-tall', position: 'center center' },
+  { name: 'Formas e proporções', kind: 'Arquitetura', image: 'fachada-moderna.png', description: 'Volumes em equilíbrio e um olhar atento ao encontro entre a casa e a paisagem.', cls: '', position: 'center center' },
+  { name: 'Ambientes que acolhem', kind: 'Interiores', image: 'suite-clara.png', description: 'Tons suaves e iluminação acolhedora para dar espaço à tranquilidade do dia a dia.', cls: '', position: 'center center' },
+  { name: 'Expressão arquitetônica', kind: 'Arquitetura', image: 'residencia-contemporanea.png', description: 'Uma composição de cheios e vazios, com presença e personalidade em cada perspectiva.', cls: '', position: 'center center' },
+  { name: 'Espaços com identidade', kind: 'Interiores', image: 'espaco-essence.png', description: 'Detalhes pensados em conjunto para criar ambientes com uma linguagem própria.', cls: '', position: 'center center' },
 ];
 
 const services = [
@@ -37,6 +38,7 @@ function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [form, setForm] = useState({ name: '', service: '', message: '' });
   const lastFocus = useRef(null);
+  const lightboxClose = useRef(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -64,7 +66,11 @@ function App() {
     if (!activeProject) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const onKey = e => { if (e.key === 'Escape') setActiveProject(null); };
+    lightboxClose.current?.focus();
+    const onKey = e => {
+      if (e.key === 'Escape') setActiveProject(null);
+      if (e.key === 'Tab') { e.preventDefault(); lightboxClose.current?.focus(); }
+    };
     window.addEventListener('keydown', onKey);
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); lastFocus.current?.focus?.(); };
   }, [activeProject]);
@@ -135,13 +141,7 @@ function App() {
       <section className="projects-section section-pad" id="projetos">
         <div className="wrap">
           <div className="section-heading reveal-on-scroll"><div><span className="section-kicker"><span className="gold-dot"/> 01 — PROJETOS SELECIONADOS</span><h2>Traços que <em>ganham vida.</em></h2></div><p>Uma seleção de espaços, perspectivas e detalhes que expressam nossa linguagem.</p></div>
-          <div className="projects-grid">
-            {projects.map((project, index) => <button key={project.image} type="button" className={`project-card reveal-on-scroll ${project.cls}`} onClick={() => openProject(project)} aria-label={`Ampliar imagem: ${project.name}`}>
-              <img src={`${ASSETS}portfolio/${project.image}`} alt={project.name} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" style={{ objectPosition: project.position }} />
-
-              <span className="project-meta"><span><small>{project.kind} / 0{index + 1}</small><strong>{project.name}</strong></span><span className="project-arrow"><Arrow diagonal size={21}/></span></span>
-            </button>)}
-          </div>
+          <ProjectCarousel projects={projects} onOpen={openProject} dialogOpen={Boolean(activeProject)} />
           <div className="projects-footer reveal-on-scroll"><span>DETALHES QUE CONTAM HISTÓRIAS</span><a className="inline-link" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">Mais inspirações no Instagram <Arrow diagonal size={18}/></a></div>
         </div>
       </section>
@@ -171,7 +171,7 @@ function App() {
 
     <footer className="site-footer"><div className="wrap footer-top"><a className="footer-logo" href="#inicio" aria-label="Voltar ao início"><img src={`${ASSETS}identidade/logo-stela-maris.png`} alt="Stela Maris Arquitetura & Engenharia" width="228" height="77" loading="lazy" /></a><p>Projetamos sonhos,<br/><em>construímos realidades.</em></p><div className="footer-links"><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></div></div><div className="wrap footer-bottom"><span>© {new Date().getFullYear()} Stela Maris Arquitetura & Engenharia</span><span>Campos de Júlio · Mato Grosso</span><div><a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram da Stela Maris"><InstagramIcon /></a><a href={WHATSAPP} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da Stela Maris"><WhatsappIcon /></a></div></div></footer>
     <a className="floating-wa" href={`${WHATSAPP}?text=${encodeURIComponent('Olá! Gostaria de informações sobre um projeto.')}`} target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp"><WhatsappIcon size={25}/></a>
-    {activeProject && <div className="lightbox-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveProject(null)}}><div className="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title"><button type="button" className="lightbox-close" aria-label="Fechar imagem" onClick={()=>setActiveProject(null)}>×</button><img src={`${ASSETS}portfolio/${activeProject.image}`} alt={activeProject.name}/><div className="lightbox-caption"><small>{activeProject.kind}</small><h2 id="lightbox-title">{activeProject.name}</h2></div></div></div>}
+    {activeProject && <div className="lightbox-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setActiveProject(null)}}><div className="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title"><button ref={lightboxClose} type="button" className="lightbox-close" aria-label="Fechar imagem" onClick={()=>setActiveProject(null)}>×</button><img src={`${ASSETS}portfolio/${activeProject.image}`} alt={activeProject.name}/><div className="lightbox-caption"><small>{activeProject.kind}</small><h2 id="lightbox-title">{activeProject.name}</h2></div></div></div>}
   </>;
 }
 
