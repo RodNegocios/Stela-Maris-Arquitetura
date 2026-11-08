@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 import './editorial.css';
+import './portrait-hero.css';
 
 const ASSETS = '/assets/';
 const WHATSAPP = 'https://wa.me/5565999527090';
@@ -36,28 +37,12 @@ function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [form, setForm] = useState({ name: '', service: '', message: '' });
   const lastFocus = useRef(null);
-  const heroRef = useRef(null);
-  const moveHero = event => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || event.pointerType === 'touch') return;
-    const bounds = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty('--hero-mouse-x', `${((((event.clientX - bounds.left) / bounds.width) - 0.5) * 18).toFixed(1)}px`);
-    event.currentTarget.style.setProperty('--hero-mouse-y', `${((((event.clientY - bounds.top) / bounds.height) - 0.5) * 22).toFixed(1)}px`);
-  };
-  const resetHero = event => {
-    event.currentTarget.style.setProperty('--hero-mouse-x', '0px');
-    event.currentTarget.style.setProperty('--hero-mouse-y', '0px');
-  };
 
   useEffect(() => {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(max > 0 ? (window.scrollY / max) * 100 : 0);
       document.documentElement.classList.toggle('scrolled', window.scrollY > 40);
-      if (heroRef.current) {
-        const progress = Math.min(1, Math.max(0, window.scrollY / Math.max(heroRef.current.offsetHeight, 1)));
-        heroRef.current.style.setProperty('--hero-scroll-y', `${(progress * 105).toFixed(1)}px`);
-        heroRef.current.style.setProperty('--hero-scroll-mobile-y', `${(progress * 55).toFixed(1)}px`);
-      }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
@@ -111,38 +96,36 @@ function App() {
     </header>
 
     <main id="conteudo">
-      <section className="hero" id="inicio" aria-label="Apresentação" ref={heroRef} onPointerMove={moveHero} onPointerLeave={resetHero}>
-        <div className="hero-image" style={{ backgroundImage: "url(/assets/portfolio/fachada-contemporanea.png)" }} aria-hidden="true" />
-        <div className="hero-shade" aria-hidden="true" />
-        <div className="hero-signature" aria-hidden="true">
-          <span className="hero-signature-inner"><span>Stela</span><em>Maris</em></span>
-          <span className="hero-signature-caption">ARQUITETURA <span>✦</span> ENGENHARIA</span>
-        </div>
-        <svg className="hero-foreground" aria-hidden="true" focusable="false" viewBox="0 0 440 248" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <clipPath id="hero-roofline">
-              <path d="M0 117 L24 111 L31 99 L74 86 L142 65 L155 61 L252 61 L277 67 L303 70 L408 96 L440 117 L440 248 L0 248 Z" />
-            </clipPath>
-          </defs>
-          <image href="/assets/portfolio/fachada-contemporanea.png" width="440" height="248" preserveAspectRatio="none" clipPath="url(#hero-roofline)" />
-        </svg>
-        <div className="hero-content wrap">
-          <p className="eyebrow hero-eyebrow reveal-on-scroll">STELA MARIS <span className="eyebrow-line" /> ARQUITETURA & ENGENHARIA</p>
-          <h1 className="hero-title reveal-on-scroll">Projetamos <em>sonhos,</em><br/>construímos <em>realidades.</em></h1>
-          <div className="hero-bottom reveal-on-scroll">
-            <p>Arquitetura que inspira.<br/>Projetos que transformam.</p>
-            <a className="circle-link" href="#projetos" aria-label="Explorar projetos"><Arrow diagonal size={27}/></a>
+      <section className="portrait-hero" id="inicio" aria-labelledby="hero-heading">
+        <div className="wrap portrait-hero-grid">
+          <div className="portrait-hero-copy">
+            <p className="portrait-eyebrow"><span /> ARQUITETURA COM PROPÓSITO</p>
+            <h1 className="hero-title" id="hero-heading">Seu jeito de viver.<br/>Nossa forma de <em>projetar.</em></h1>
+            <p className="portrait-description">Entre o que você sonha e o espaço que você vive, existe um olhar atento a cada detalhe.</p>
+            <div className="portrait-actions">
+              <a className="portrait-cta" href="#contato">Vamos criar seu espaço <Arrow diagonal size={20}/></a>
+              <a className="portrait-projects" href="#projetos">Conheça os projetos <span>↓</span></a>
+            </div>
+            <div className="portrait-note"><span className="note-line"/><p>Arquitetura, engenharia<br/><strong>e sensibilidade para transformar.</strong></p></div>
           </div>
+          <figure className="portrait-composition">
+            <div className="portrait-orbit" aria-hidden="true" />
+            <div className="portrait-frame">
+              <img className="hero-portrait" src={`${ASSETS}equipe/stela-maris.png`} alt="Stela Maris, arquiteta" width="1120" height="1404" fetchPriority="high" decoding="async" />
+            </div>
+            <div className="portrait-seal"><strong>12</strong><span>ANOS DE<br/>HISTÓRIAS E PROJETOS</span></div>
+            <figcaption className="portrait-signature"><span>Stela <em>Maris</em></span><small>ARQUITETURA & ENGENHARIA</small></figcaption>
+            <span className="portrait-location">CAMPOS DE JÚLIO · MATO GROSSO</span>
+          </figure>
         </div>
-        <div className="hero-side-label" aria-hidden="true">CAMPOS DE JÚLIO — MT · BRASIL</div>
-        <a className="hero-index" href="#sobre">SCROLL PARA DESCOBRIR <span>↓</span></a>
+        <div className="wrap portrait-hero-footer"><span>UM OLHAR HUMANO. INFINITAS POSSIBILIDADES.</span><a href="#sobre">Conheça nossa essência <Arrow diagonal size={16}/></a></div>
       </section>
 
       <section className="intro-section section-pad" id="sobre">
         <div className="wrap intro-grid">
-          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> O OLHAR POR TRÁS DOS ESPAÇOS</span><figure className="intro-portrait" aria-label="Arquiteta Stela Maris">
-            <img className="architect-portrait" src={`${ASSETS}equipe/stela-maris.png`} alt="Stela Maris, arquiteta" loading="lazy" width="600" height="800" />
-            <figcaption>Stela Maris <span>Arquitetura & Engenharia</span></figcaption>
+          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> DA ESSÊNCIA AO ESPAÇO</span><figure className="intro-portrait" aria-label="Projeto de interiores">
+            <img className="intro-project-image" src={`${ASSETS}portfolio/suite-clara.png`} alt="Suíte em tons naturais, com cabeceira estofada e iluminação acolhedora" loading="lazy" width="1200" height="900" />
+            <figcaption>O cuidado mora nos detalhes.<span>Interiores · Stela Maris</span></figcaption>
           </figure></div>
           <div className="intro-copy reveal-on-scroll"><h2>Espaços não são apenas lugares. <em>São histórias.</em></h2><p>Transformamos ideias e sonhos em projetos de arquitetura e engenharia. Criatividade, técnica e sensibilidade em cada detalhe.</p><a className="inline-link" href="#servicos">Conheça nossa atuação <Arrow diagonal size={18}/></a></div>
           <div className="years-stamp reveal-on-scroll"><strong>12</strong><span>ANOS TRANSFORMANDO<br/>IDEIAS EM PROJETOS</span></div>
