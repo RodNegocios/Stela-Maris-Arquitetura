@@ -96,7 +96,7 @@ function App() {
 
     <main id="conteudo">
       <section className="hero" id="inicio" aria-label="Apresentação">
-        <div className="hero-image" aria-hidden="true" />
+        <div className="hero-image" style={{ backgroundImage: "url(/assets/portfolio/fachada-contemporanea.png)" }} aria-hidden="true" />
         <div className="hero-shade" aria-hidden="true" />
         <div className="hero-content wrap">
           <p className="eyebrow hero-eyebrow reveal-on-scroll">STELA MARIS <span className="eyebrow-line" /> ARQUITETURA & ENGENHARIA</p>
@@ -133,7 +133,7 @@ function App() {
       </section>
 
       <section className="statement-section" aria-label="Nossa filosofia">
-        <div className="statement-photo" aria-hidden="true" />
+        <div className="statement-photo" style={{ backgroundImage: "url(/assets/portfolio/sala-de-estar.png)" }} aria-hidden="true" />
         <div className="wrap statement-content reveal-on-scroll"><span className="section-kicker">UMA VISÃO. INFINITAS POSSIBILIDADES.</span><h2>A beleza está em <em>cada detalhe.</em></h2><p>Da primeira ideia ao projeto que faz sentido para você.</p></div>
       </section>
 
