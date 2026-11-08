@@ -36,19 +36,6 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Testes navegador
         run: npm run test:e2e
-      - name: Diagnostico visual de capa
-        run: |
-          python3 -m pip install --quiet pillow
-          python3 - <<'PY'
-          import base64, io
-          from PIL import Image
-          pic=Image.open('test-results/desktop.png').convert('RGB')
-          pic=pic.crop((0,0,min(1440,pic.width),min(900,pic.height)))
-          pic.thumbnail((650,430))
-          buffer=io.BytesIO()
-          pic.save(buffer,format='JPEG',quality=62,optimize=True)
-          print('HERO-RENDER-BEGIN:'+base64.b64encode(buffer.getvalue()).decode()+':HERO-RENDER-END')
-          PY
       - name: Publicar build estatico na main
         run: |
           cp dist/index.html index.html
