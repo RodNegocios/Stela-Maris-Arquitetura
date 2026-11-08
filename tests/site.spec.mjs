@@ -83,3 +83,26 @@ test('retrato permanece acessível com movimento reduzido', async ({ page }) => 
   await expect(retrato).toBeVisible();
   await expect(retrato).toHaveAttribute('alt', /Stela Maris/);
 });
+
+test('hero arquitetônico em camadas mantém lettering atrás do telhado', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const hero = page.locator('#inicio');
+  await expect(hero.locator('.hero-signature-inner')).toContainText('Stela');
+  await expect(hero.locator('.hero-signature-inner')).toContainText('Maris');
+  await expect(hero.locator('.hero-foreground image')).toHaveAttribute('href', '/assets/portfolio/fachada-contemporanea.png');
+  await expect(hero.locator('#hero-roofline path')).toHaveCount(1);
+  const layers = await hero.evaluate(el => {
+    const z = selector => Number(getComputedStyle(el.querySelector(selector)).zIndex);
+    return [z('.hero-image'), z('.hero-signature'), z('.hero-foreground'), z('.hero-content')];
+  });
+  expect(layers).toEqual([0, 2, 3, 4]);
+});
+
+test('hero editorial respeita movimento reduzido', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const name = page.locator('.hero-signature-inner');
+  await expect(name).toBeVisible();
+  expect(await name.evaluate(el => getComputedStyle(el).animationName)).toBe('none');
+});

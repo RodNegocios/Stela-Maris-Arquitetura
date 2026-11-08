@@ -37,12 +37,27 @@ function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [form, setForm] = useState({ name: '', service: '', message: '' });
   const lastFocus = useRef(null);
+  const heroRef = useRef(null);
+  const moveHero = event => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || event.pointerType === 'touch') return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty('--hero-mouse-x', (((event.clientX - bounds.left) / bounds.width) - 0.5).toFixed(3));
+    event.currentTarget.style.setProperty('--hero-mouse-y', (((event.clientY - bounds.top) / bounds.height) - 0.5).toFixed(3));
+  };
+  const resetHero = event => {
+    event.currentTarget.style.setProperty('--hero-mouse-x', '0');
+    event.currentTarget.style.setProperty('--hero-mouse-y', '0');
+  };
 
   useEffect(() => {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setScrollProgress(max > 0 ? (window.scrollY / max) * 100 : 0);
       document.documentElement.classList.toggle('scrolled', window.scrollY > 40);
+      if (heroRef.current) {
+        const progress = Math.min(1, Math.max(0, window.scrollY / Math.max(heroRef.current.offsetHeight, 1)));
+        heroRef.current.style.setProperty('--hero-scroll', progress.toFixed(3));
+      }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
@@ -96,9 +111,21 @@ function App() {
     </header>
 
     <main id="conteudo">
-      <section className="hero" id="inicio" aria-label="Apresentação">
+      <section className="hero" id="inicio" aria-label="Apresentação" ref={heroRef} onPointerMove={moveHero} onPointerLeave={resetHero}>
         <div className="hero-image" style={{ backgroundImage: "url(/assets/portfolio/fachada-contemporanea.png)" }} aria-hidden="true" />
         <div className="hero-shade" aria-hidden="true" />
+        <div className="hero-signature" aria-hidden="true">
+          <span className="hero-signature-inner"><span>Stela</span><em>Maris</em></span>
+          <span className="hero-signature-caption">ARQUITETURA <span>✦</span> ENGENHARIA</span>
+        </div>
+        <svg className="hero-foreground" aria-hidden="true" focusable="false" viewBox="0 0 440 248" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <clipPath id="hero-roofline">
+              <path d="M0 117 L24 111 L31 99 L74 86 L142 65 L155 61 L252 61 L277 67 L303 70 L408 96 L440 117 L440 248 L0 248 Z" />
+            </clipPath>
+          </defs>
+          <image href="/assets/portfolio/fachada-contemporanea.png" width="440" height="248" preserveAspectRatio="none" clipPath="url(#hero-roofline)" />
+        </svg>
         <div className="hero-content wrap">
           <p className="eyebrow hero-eyebrow reveal-on-scroll">STELA MARIS <span className="eyebrow-line" /> ARQUITETURA & ENGENHARIA</p>
           <h1 className="hero-title reveal-on-scroll">Projetamos <em>sonhos,</em><br/>construímos <em>realidades.</em></h1>
