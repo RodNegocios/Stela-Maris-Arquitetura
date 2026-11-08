@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import TechText from './components/TechText.jsx';
-import Lanyard from './components/Lanyard.jsx';
 import './styles.css';
+import './editorial.css';
 
 const ASSETS = '/assets/';
 const WHATSAPP = 'https://wa.me/5565999527090';
@@ -136,21 +135,14 @@ function App() {
           </div>
         </div>
         <div className="hero-side-label" aria-hidden="true">CAMPOS DE JÚLIO — MT · BRASIL</div>
-        <div className="hero-index" aria-hidden="true">01 / 04</div>
+        <a className="hero-index" href="#sobre">SCROLL PARA DESCOBRIR <span>↓</span></a>
       </section>
 
       <section className="intro-section section-pad" id="sobre">
         <div className="wrap intro-grid">
-          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> NOSSA ESSÊNCIA</span><figure className="intro-portrait" aria-label="Foto interativa da arquiteta Stela Maris">
-            <div className="intro-lanyard-shell">
-              <Lanyard frontImage={`${ASSETS}equipe/stela-maris.png`}
-                backImage={`${ASSETS}identidade/logo-stela-maris.png`}
-                orientation="portrait" imageFit="cover" finish="matte"
-                cardColor="#ede7dc" cornerRadius={0.18} size={0.67}
-                anchor="center" strapLength={0.3} strapColor="#b08e65" strapWidth={0.65}
-                metal="gold" gravity={0.9} damping={0.64} elasticity={0.42}
-                breeze={0.16} interactive intro />
-            </div>
+          <div className="intro-caption reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> O OLHAR POR TRÁS DOS ESPAÇOS</span><figure className="intro-portrait" aria-label="Arquiteta Stela Maris">
+            <img className="architect-portrait" src={`${ASSETS}equipe/stela-maris.png`} alt="Stela Maris, arquiteta" loading="lazy" width="600" height="800" />
+            <figcaption>Stela Maris <span>Arquitetura & Engenharia</span></figcaption>
           </figure></div>
           <div className="intro-copy reveal-on-scroll"><h2>Espaços não são apenas lugares. <em>São histórias.</em></h2><p>Transformamos ideias e sonhos em projetos de arquitetura e engenharia. Criatividade, técnica e sensibilidade em cada detalhe.</p><a className="inline-link" href="#servicos">Conheça nossa atuação <Arrow diagonal size={18}/></a></div>
           <div className="years-stamp reveal-on-scroll"><strong>12</strong><span>ANOS TRANSFORMANDO<br/>IDEIAS EM PROJETOS</span></div>
@@ -159,11 +151,11 @@ function App() {
 
       <section className="projects-section section-pad" id="projetos">
         <div className="wrap">
-          <div className="section-heading reveal-on-scroll"><div><span className="section-kicker"><span className="gold-dot"/> PORTFÓLIO VISUAL</span><h2>Traços que <em>ganham vida.</em></h2></div><p>Uma seleção de espaços, perspectivas e detalhes que expressam nossa linguagem.</p></div>
+          <div className="section-heading reveal-on-scroll"><div><span className="section-kicker"><span className="gold-dot"/> 01 — PROJETOS SELECIONADOS</span><h2>Traços que <em>ganham vida.</em></h2></div><p>Uma seleção de espaços, perspectivas e detalhes que expressam nossa linguagem.</p></div>
           <div className="projects-grid">
             {projects.map((project, index) => <button key={project.image} type="button" className={`project-card reveal-on-scroll ${project.cls}`} onClick={() => openProject(project)} aria-label={`Ampliar imagem: ${project.name}`}>
               <img src={`${ASSETS}portfolio/${project.image}`} alt={project.name} loading={index < 2 ? 'eager' : 'lazy'} decoding="async" style={{ objectPosition: project.position }} />
-              <span className="project-gradient" aria-hidden="true" />
+
               <span className="project-meta"><span><small>{project.kind} / 0{index + 1}</small><strong>{project.name}</strong></span><span className="project-arrow"><Arrow diagonal size={21}/></span></span>
             </button>)}
           </div>
@@ -178,18 +170,16 @@ function App() {
 
       <section className="services-section section-pad" id="servicos">
         <div className="wrap services-layout">
-          <div className="services-lead reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> O QUE FAZEMOS</span><h2>Do conceito<br/>à <em>essência.</em></h2><p>Cada projeto começa com uma escuta atenta e evolui com propósito.</p><a className="text-button" href="#contato">Fale sobre sua ideia <Arrow diagonal size={18}/></a></div>
+          <div className="services-lead reveal-on-scroll"><span className="section-kicker"><span className="gold-dot" /> 02 — NOSSA ATUAÇÃO</span><h2>Do conceito<br/>à <em>essência.</em></h2><p>Cada projeto começa com uma escuta atenta e evolui com propósito.</p><a className="text-button" href="#contato">Fale sobre sua ideia <Arrow diagonal size={18}/></a></div>
           <div className="services-list">{services.map(service => <div className="service-row reveal-on-scroll" key={service.number}><span className="service-num">{service.number}</span><div><h3>{service.title}</h3><p>{service.detail}</p></div><Arrow diagonal size={21}/></div>)}</div>
         </div>
       </section>
 
-      <section className="brand-experience" aria-label="Experiência interativa Stela Maris">
-        <div className="wrap"><p className="section-kicker center-kicker">ARQUITETURA QUE DEIXA MARCAS</p><div className="tech-holder"><TechText text="STELA MARIS" fontFamily="Manrope, sans-serif" fontWeight={500} fontSize={170} color="#d6c5a6" accentColor="#ad8b5b" reveal="letter" intro="metrics" introDuration={2.5} dashLength={5} dashGap={3} specks={7} draggable={false} clickKick selection labels={false} guides={false} speed={0.55} sweep /></div><p className="brand-hint">UMA ASSINATURA EM CADA PROJETO</p></div>
-      </section>
+      <div className="chapter-bridge" aria-hidden="true"><div className="wrap"><span>DA PRIMEIRA CONVERSA</span><span className="bridge-line"/><span>AO SEU NOVO ESPAÇO</span><Arrow diagonal size={24}/></div></div>
 
       <section className="contact-section section-pad" id="contato">
         <div className="wrap contact-layout">
-          <div className="contact-copy reveal-on-scroll"><span className="section-kicker"><span className="gold-dot"/> VAMOS CONVERSAR</span><h2>Seu próximo<br/>projeto começa <em>aqui.</em></h2><p>Conte-nos sua ideia. Será um prazer conhecer o que você imagina para o seu espaço.</p><a className="contact-whatsapp" href={`${WHATSAPP}?text=${encodeURIComponent('Olá! Gostaria de conversar sobre um projeto.')}`} target="_blank" rel="noopener noreferrer"><WhatsappIcon size={21}/> Conversar pelo WhatsApp <Arrow diagonal size={17}/></a></div>
+          <div className="contact-copy reveal-on-scroll"><span className="section-kicker"><span className="gold-dot"/> 03 — UM NOVO COMEÇO</span><h2>Seu próximo<br/>projeto começa <em>aqui.</em></h2><p>Conte-nos sua ideia. Será um prazer conhecer o que você imagina para o seu espaço.</p><a className="contact-whatsapp" href={`${WHATSAPP}?text=${encodeURIComponent('Olá! Gostaria de conversar sobre um projeto.')}`} target="_blank" rel="noopener noreferrer"><WhatsappIcon size={21}/> Conversar pelo WhatsApp <Arrow diagonal size={17}/></a></div>
           <form className="contact-form reveal-on-scroll" onSubmit={sendForm} aria-label="Solicitar orçamento via WhatsApp"><div className="form-top"><span>SOLICITAR ORÇAMENTO</span><span>01 — 03</span></div><label htmlFor="name">Como podemos chamar você?</label><input id="name" name="name" type="text" autoComplete="name" minLength="2" maxLength="100" required placeholder="Seu nome" value={form.name} onChange={e => setForm(v=>({...v, name:e.target.value}))}/><label htmlFor="service">Em que podemos ajudar?</label><select id="service" name="service" required value={form.service} onChange={e=>setForm(v=>({...v,service:e.target.value}))}><option value="">Selecione uma opção</option><option>Arquitetura</option><option>Engenharia</option><option>Desenvolvimento de projetos</option><option>Quero conversar sobre uma ideia</option></select><label htmlFor="message">Conte um pouco sobre sua ideia</label><textarea id="message" name="message" rows="3" minLength="5" maxLength="1200" required placeholder="Seu projeto começa com uma conversa..." value={form.message} onChange={e=>setForm(v=>({...v,message:e.target.value}))}/><button className="submit-button" type="submit">Enviar pelo WhatsApp <Arrow diagonal size={20}/></button><p className="form-note">Ao enviar, você será direcionado ao WhatsApp. Nenhum dado é armazenado neste site.</p></form>
         </div>
         <div className="wrap location-layout reveal-on-scroll"><div className="location-copy"><span className="section-kicker">ONDE ESTAMOS</span><h3>Campos de Júlio <em>— MT</em></h3><address>Rua Santa Catarina, Centro<br/>Campos de Júlio – MT · CEP 78319-000</address><a className="inline-link" href={MAPS} target="_blank" rel="noopener noreferrer">Como chegar <Arrow diagonal size={17}/></a><div className="hours"><strong>HORÁRIO DE ATENDIMENTO</strong><span>Segunda a sexta: 08h às 17h</span><span>Sábado: 08h às 11h30</span><span>Domingo: fechado</span></div></div><iframe title="Mapa de localização da Stela Maris em Campos de Júlio, Mato Grosso" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={`https://www.google.com/maps?q=${encodeURIComponent('Rua Santa Catarina, Centro, Campos de Júlio, MT, 78319-000')}&output=embed`} allowFullScreen /></div>

@@ -65,13 +65,13 @@ test('imagens da publicação disponíveis e sem links quebrados', async ({ requ
   }
 });
 
-test('retrato da arquiteta com Lanyard e imagem de segurança', async ({ page }) => {
+test('retrato editorial da arquiteta carrega corretamente', async ({ page }) => {
   await page.goto('/');
   const retrato = page.locator('#sobre .intro-portrait');
   await retrato.scrollIntoViewIfNeeded();
   await expect(retrato).toBeVisible();
-  await expect(retrato.locator('.lanyard')).toHaveCount(1);
-  const foto = retrato.locator('.lanyard-poster');
+  await expect(retrato.locator('figcaption')).toContainText('Stela Maris');
+  const foto = retrato.locator('.architect-portrait');
   await expect(foto).toHaveAttribute('src', '/assets/equipe/stela-maris.png');
   await expect.poll(() => foto.evaluate(img => img.complete && img.naturalWidth > 0)).toBeTruthy();
 });
@@ -79,7 +79,7 @@ test('retrato da arquiteta com Lanyard e imagem de segurança', async ({ page })
 test('retrato permanece acessível com movimento reduzido', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-  const retrato = page.locator('#sobre .intro-portrait .lanyard-poster');
+  const retrato = page.locator('#sobre .intro-portrait .architect-portrait');
   await expect(retrato).toBeVisible();
   await expect(retrato).toHaveAttribute('alt', /Stela Maris/);
 });
@@ -105,4 +105,26 @@ test('hero editorial respeita movimento reduzido', async ({ page }) => {
   const name = page.locator('.hero-signature-inner');
   await expect(name).toBeVisible();
   expect(await name.evaluate(el => getComputedStyle(el).animationName)).toBe('none');
+});
+
+test('formulário prepara a conversa com os dados preenchidos', async ({ page }) => {
+  await page.addInitScript(() => { window.open = (url) => { window.__contactURL = url; }; });
+  await page.goto('/');
+  await page.locator('#name').fill('Maria Silva');
+  await page.locator('#service').selectOption('Arquitetura');
+  await page.locator('#message').fill('Quero planejar minha casa.');
+  await page.getByRole('button', { name: 'Enviar pelo WhatsApp' }).click();
+  const destination = new URL(await page.evaluate(() => window.__contactURL));
+  expect(destination.origin).toBe('https://wa.me');
+  expect(destination.searchParams.get('text')).toContain('Nome: Maria Silva');
+  expect(destination.searchParams.get('text')).toContain('Interesse: Arquitetura');
+  expect(destination.searchParams.get('text')).toContain('Quero planejar minha casa.');
+});
+
+test('tipografia editorial carrega sem depender do Google Fonts', async ({ page }) => {
+  await page.route(/fonts\.(googleapis|gstatic)\.com/, route => route.abort());
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  expect(await page.evaluate(() => document.fonts.check('400 32px Cormorant'))).toBe(true);
+  expect(await page.locator('.hero-title').evaluate(el => getComputedStyle(el).fontFamily)).toContain('Cormorant');
 });
